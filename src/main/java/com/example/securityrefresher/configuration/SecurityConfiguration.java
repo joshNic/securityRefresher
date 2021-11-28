@@ -32,18 +32,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .password("test2")
 //                .roles("ADMIN");
 
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .withDefaultSchema()
-                .withUser(
-                        User.withUsername("test")
-                                .password("test")
-                                .roles("TEST")
-                )
-                .withUser(
-                        User.withUsername("test2")
-                                .password("test2")
-                                .roles("ADMIN")
-                );
+//        auth.jdbcAuthentication().dataSource(dataSource)
+//                .withDefaultSchema()
+//                .withUser(
+//                        User.withUsername("test")
+//                                .password("test")
+//                                .roles("TEST")
+//                )
+//                .withUser(
+//                        User.withUsername("test2")
+//                                .password("test2")
+//                                .roles("ADMIN")
+//                );
+        auth.jdbcAuthentication().dataSource(dataSource);
     }
     @Bean
     public PasswordEncoder getPasswordEncoder(){
