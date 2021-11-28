@@ -1,12 +1,14 @@
 package com.example.securityrefresher.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -30,7 +32,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .password("test2")
 //                .roles("ADMIN");
 
-        auth.jdbcAuthentication().dataSource(dataSource);
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .withDefaultSchema()
+                .withUser(
+                        User.withUsername("test")
+                                .password("test")
+                                .roles("TEST")
+                )
+                .withUser(
+                        User.withUsername("test2")
+                                .password("test2")
+                                .roles("ADMIN")
+                );
     }
     @Bean
     public PasswordEncoder getPasswordEncoder(){
