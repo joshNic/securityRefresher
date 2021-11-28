@@ -1,5 +1,6 @@
 package com.example.securityrefresher.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,19 +10,27 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.sql.DataSource;
+
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    DataSource dataSource;
+
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception{
         //set configs on the auth object
-        auth.inMemoryAuthentication()
-                .withUser("test")
-                .password("test")
-                .roles("TEST")
-                .and()
-                .withUser("test2")
-                .password("test2")
-                .roles("ADMIN");
+//        auth.inMemoryAuthentication()
+//                .withUser("test")
+//                .password("test")
+//                .roles("TEST")
+//                .and()
+//                .withUser("test2")
+//                .password("test2")
+//                .roles("ADMIN");
+
+        auth.jdbcAuthentication().dataSource(dataSource);
     }
     @Bean
     public PasswordEncoder getPasswordEncoder(){
