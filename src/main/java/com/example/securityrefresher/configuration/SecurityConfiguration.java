@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -18,7 +19,7 @@ import javax.sql.DataSource;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    DataSource dataSource;
+    UserDetailsService userDetailsService;
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception{
@@ -44,9 +45,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                                .password("test2")
 //                                .roles("ADMIN")
 //                );
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("select username,password,enabled from users where username = ?")
-                .authoritiesByUsernameQuery("select username,authority from authorities where username=?");
+//        auth.jdbcAuthentication().dataSource(dataSource)
+//                .usersByUsernameQuery("select username,password,enabled from users where username = ?")
+//                .authoritiesByUsernameQuery("select username,authority from authorities where username=?");
+
+        auth.userDetailsService(userDetailsService);
     }
     @Bean
     public PasswordEncoder getPasswordEncoder(){
